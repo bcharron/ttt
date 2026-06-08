@@ -5,6 +5,6 @@ import (
 )
 
 func main() {
-	game := &game.Game{}
+	game := game.NewGame(3)
 	game.Draw()
 }
