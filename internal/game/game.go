@@ -36,6 +36,10 @@ func NewGame(rows int) *Game {
 	}
 }
 
+func (g *Game) GetState() []int {
+	return g.grid
+}
+
 func Itoc(v int) string {
 	switch v {
 	case PLAYER_X:
