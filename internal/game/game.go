@@ -18,23 +18,25 @@ const (
 type Player int
 
 type Game struct {
-	grid []int
-	rows int
-	cols int
-	size int // Total size
+	grid      []int
+	rows      int
+	cols      int
+	size      int // Total size
+	movesLeft int // How many moves are left
 }
 
 func NewGame(rows int) *Game {
 	size := rows * rows
 	return &Game{
-		grid: make([]int, size),
-		rows: rows,
-		cols: rows, // it's square
-		size: rows * rows,
+		grid:      make([]int, size),
+		rows:      rows,
+		cols:      rows, // it's square
+		size:      rows * rows,
+		movesLeft: size,
 	}
 }
 
-func itoc(v int) string {
+func Itoc(v int) string {
 	switch v {
 	case PLAYER_X:
 		return "x"
@@ -49,11 +51,11 @@ func itoc(v int) string {
 
 func (g *Game) Draw() {
 	fmt.Printf("+---+---+---+\n")
-	fmt.Printf("+ %s | %s | %s |\n", itoc(g.grid[0]), itoc(g.grid[1]), itoc(g.grid[2]))
+	fmt.Printf("+ %s | %s | %s |\n", Itoc(g.grid[0]), Itoc(g.grid[1]), Itoc(g.grid[2]))
 	fmt.Printf("+---+---+---+\n")
-	fmt.Printf("+ %s | %s | %s |\n", itoc(g.grid[3]), itoc(g.grid[4]), itoc(g.grid[5]))
+	fmt.Printf("+ %s | %s | %s |\n", Itoc(g.grid[3]), Itoc(g.grid[4]), Itoc(g.grid[5]))
 	fmt.Printf("+---+---+---+\n")
-	fmt.Printf("+ %s | %s | %s |\n", itoc(g.grid[6]), itoc(g.grid[7]), itoc(g.grid[8]))
+	fmt.Printf("+ %s | %s | %s |\n", Itoc(g.grid[6]), Itoc(g.grid[7]), Itoc(g.grid[8]))
 	fmt.Printf("+---+---+---+\n")
 }
 
@@ -72,7 +74,13 @@ func (g *Game) Play(player int, pos int) error {
 
 	g.grid[pos] = player
 
+	g.movesLeft--
+
 	return nil
+}
+
+func (g *Game) HaveMovesLeft() bool {
+	return g.movesLeft > 0
 }
 
 func (g *Game) HaveWinner() (bool, int) {
