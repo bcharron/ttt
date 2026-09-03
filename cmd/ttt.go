@@ -45,7 +45,7 @@ func playerToIndex(player int) int {
 }
 
 func main() {
-	epochs := 5000
+	const epochs = 5000
 
 	nn := make([]*mllib.Network, 20)
 
