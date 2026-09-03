@@ -2,7 +2,10 @@ module github.com/bcharron/ttt
 
 go 1.25.9
 
-require github.com/stretchr/testify v1.11.1
+require (
+	github.com/bcharron/mllib v0.0.0-20260902184330-519078812036
+	github.com/stretchr/testify v1.11.1
+)
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect

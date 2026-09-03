@@ -37,7 +37,9 @@ func NewGame(rows int) *Game {
 }
 
 func (g *Game) GetState() []int {
-	return g.grid
+	out := make([]int, len(g.grid))
+	copy(out, g.grid)
+	return out
 }
 
 func Itoc(v int) string {
@@ -63,7 +65,7 @@ func (g *Game) Draw() {
 	fmt.Printf("+---+---+---+\n")
 }
 
-func (g *Game) Play(player int, pos int) error {
+func (g *Game) IsLegalMove(player int, pos int) error {
 	if pos < 0 || pos > len(g.grid)-1 {
 		return ErrInvalidPosition
 	}
@@ -74,6 +76,14 @@ func (g *Game) Play(player int, pos int) error {
 
 	if player != PLAYER_X && player != PLAYER_O {
 		return ErrInvalidPlayer
+	}
+
+	return nil
+}
+
+func (g *Game) Play(player int, pos int) error {
+	if err := g.IsLegalMove(player, pos); err != nil {
+		return err
 	}
 
 	g.grid[pos] = player
@@ -182,12 +192,13 @@ func (g *Game) reverseDiagonalWinner() (bool, int) {
 		return false, 0
 	}
 
+	col := g.cols - 1
 	for row := 0; row < g.rows; row++ {
-		col := g.rows - row
-
 		if winner != g.get(row, col) {
 			return false, 0
 		}
+
+		col--
 	}
 
 	return true, winner

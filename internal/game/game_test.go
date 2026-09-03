@@ -46,4 +46,19 @@ func TestWinning(t *testing.T) {
 	haveWinner, winner = g.HaveWinner()
 	assert.True(t, haveWinner)
 	assert.Equal(t, PLAYER_X, winner)
+
+	g = NewGame(3)
+	haveWinner, winner = g.HaveWinner()
+	assert.False(t, haveWinner)
+
+	// Reverse-Diagonal winner
+	g.Play(PLAYER_X, 2)
+	g.Play(PLAYER_X, 4)
+	g.Play(PLAYER_X, 6)
+
+	g.Draw()
+
+	haveWinner, winner = g.HaveWinner()
+	assert.True(t, haveWinner)
+	assert.Equal(t, PLAYER_X, winner)
 }
